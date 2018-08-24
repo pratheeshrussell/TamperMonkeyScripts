@@ -13,16 +13,17 @@ var config_removefooter = 1; //0 does not remove footer; 1 removes footer
 var config_logout = 1; //0 displays warning if logged in; 1 tries to logs out if logged in
 (function() {
     'use strict';
-if(isloggedin() === 0 && (window.location.href.search("https://www.facebook.com/?") >=0 || window.location.href == "https://www.facebook.com" )) {
+var fburl = window.location.href.split("?")[0];
+if(isloggedin() === 0 && fburl == "https://www.facebook.com" || fburl == "https://www.facebook.com/") {
     remove_loginform("white");
     remove_recentlogins();
     remove_registerops("reg_box");
     remove_footer();
-} else if((isloggedin() === 0) && (window.location.href.search("/login") >= 0)) {
+} else if((isloggedin() === 0) && (fburl.search("/login") >= 0)) {
     remove_loginform("black");
     remove_footer();
     document.getElementById("header_block").parentNode.removeChild(document.getElementById("header_block"));
-} else if((isloggedin() === 0) && (window.location.href.search("/r.php") >= 0)) {
+} else if((isloggedin() === 0) && (fburl.search("/r.php") >= 0)) {
     remove_loginform("white");
     remove_registerops("reg_form_box");
     remove_footer();
