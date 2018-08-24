@@ -14,26 +14,27 @@ var config_logout = 1; //0 displays warning if logged in; 1 tries to logs out if
 (function() {
     'use strict';
 var fburl = window.location.href.split("?")[0];
-if(isloggedin() === 0 && fburl == "https://www.facebook.com" || fburl == "https://www.facebook.com/") {
+var loggedin = isloggedin();
+if(loggedin === 0 && (fburl == "https://www.facebook.com" || fburl == "https://www.facebook.com/")) {
     remove_loginform("white");
     remove_recentlogins();
     remove_registerops("reg_box");
     remove_footer();
-} else if((isloggedin() === 0) && (fburl.search("/login") >= 0)) {
+} else if((loggedin === 0) && (fburl.search("/login") >= 0)) {
     remove_loginform("black");
     remove_footer();
     document.getElementById("header_block").parentNode.removeChild(document.getElementById("header_block"));
-} else if((isloggedin() === 0) && (fburl.search("/r.php") >= 0)) {
+} else if((loggedin === 0) && (fburl.search("/r.php") >= 0)) {
     remove_loginform("white");
     remove_registerops("reg_form_box");
     remove_footer();
     var xh = document.getElementById("content").firstChild.firstChild.firstChild;
     xh.innerHTML ="<p>Watch some useful videos from youtube instead of spending time on facebook</p>";
 }
-  else {
-    document.getElementById("contentArea").innerHTML = "<div style='font-size:30px;background:white;'><b>Don't waste your time on Facebook</b></div>" + document.getElementById("contentArea").innerHTML;
-    if(config_logout === 1){
-    document.getElementById("pageLoginAnchor").click();
+  else if(loggedin === 1) {
+   document.getElementById("contentArea").innerHTML = "<div style='font-size:30px;background:white;'><b>Don't waste your time on Facebook</b></div>" + document.getElementById("contentArea").innerHTML;
+   document.getElementById("pageLoginAnchor").click();
+   if(config_logout === 1){
     mytimer= setInterval (function() {logmeout(); }, 200);
   }
   }
