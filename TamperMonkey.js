@@ -5,12 +5,14 @@
 // @description  Prevents Facebook Login to an extent
 // @author       Pratheesh Russell.S
 // @match        https://www.facebook.com/*
+// @match        https://*.facebook.com/*
 // @grant        none
 // ==/UserScript==
 var mytimer = "";
 var config_removereg = 2; // 0 to show register options; 1 to remove register options; 2 to remove register options and show youtube playlist
 var config_removefooter = 1; //0 does not remove footer; 1 removes footer
 var config_logout = 1; //0 displays warning if logged in; 1 tries to logs out if logged in
+//mobile sites not supported
 (function() {
     'use strict';
 var fburl = window.location.href.split("?")[0];
@@ -20,7 +22,9 @@ if(loggedin === 0 && (fburl == "https://www.facebook.com" || fburl == "https://w
     remove_recentlogins();
     remove_registerops("reg_box");
     remove_footer();
-} else if((loggedin === 0) && (fburl.search("/login") >= 0)) {
+}else if((loggedin === 0) && (fburl.search("touch.facebook.com") >= 0 || fburl.search("mobile.facebook.com") >= 0 || fburl.search("m.facebook.com") >= 0)) {
+    mobile_site();
+} else if((loggedin === 0) && (fburl.search("/login") >= 0) ) {
     remove_loginform("black");
     remove_footer();
     document.getElementById("header_block").parentNode.removeChild(document.getElementById("header_block"));
@@ -30,12 +34,20 @@ if(loggedin === 0 && (fburl == "https://www.facebook.com" || fburl == "https://w
     remove_footer();
     var xh = document.getElementById("content").firstChild.firstChild.firstChild;
     xh.innerHTML ="<p>Watch some useful videos from youtube instead of spending time on facebook</p>";
+} else if((loggedin === 0)) {
+    remove_loginform("white");
+    remove_registerops("reg_form_box");
+    remove_footer();
+    document.getElementById("contentArea").innerHTML = "";
 }
   else if(loggedin === 1) {
+      if ((fburl.search("touch.facebook.com") == -1 || fburl.search("mobile.facebook.com") == -1 || fburl.search("m.facebook.com") == -1)){
    document.getElementById("contentArea").innerHTML = "<div style='font-size:30px;background:white;'><b>Don't waste your time on Facebook</b></div>" + document.getElementById("contentArea").innerHTML;
    document.getElementById("pageLoginAnchor").click();
    if(config_logout === 1){
     mytimer= setInterval (function() {logmeout(); }, 200);
+  }} else {
+      mobile_site();
   }
   }
 })();
@@ -86,6 +98,9 @@ mytimer= "";
 allforms[j].submit();
    }
 }
+}
+function mobile_site(){
+   document.write("Don't Waste your time on Facebook");
 }
 function getplaylist(x){
     switch (x) {
