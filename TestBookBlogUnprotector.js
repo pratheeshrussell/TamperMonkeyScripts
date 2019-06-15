@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  'WP Content Copy Protection & No Right Click' Unprotector
-// @author       You
+// @author       Pratheesh Russell.S
 // @match        https://testbook.com/blog/*
 // @grant        unsafeWindow
 // ==/UserScript==
