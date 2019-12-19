@@ -8,6 +8,8 @@
 // @grant        none
 // ==/UserScript==
 
+
+
 window.setInterval(function(){
   var elements = document.getElementsByClassName("between_page_module");
     while(elements.length > 0){
@@ -21,6 +23,13 @@ window.setInterval(function(){
     while(elements3.length > 0){
         elements3[0].parentNode.removeChild(elements3[0]);
     }
+    var DownButton = document.getElementsByClassName("download_btn_container");
+    for(var j = 0; j < DownButton.length; j++)
+    {
+        DownButton[j].innerHTML = '<button onclick="window.open(\'https://www.scrdownloader.com/scribd?url='+window.location.href+'\', \'_blank\');" class="auto__doc_page_shared_forms_common_button download_btn flat_btn" aria-label="Download" type="button"><span class="label">Download Now</span></button>';
+    }
+
+
 	var items = document.body.getElementsByTagName("*");
 	for (var i = 0, len = items.length; i < len; i++) {
     items[i].removeAttribute("unselectable");
